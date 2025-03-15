@@ -129,7 +129,6 @@ export function RegistrationPhase2() {
 
   return (
     <div className="container">
-      <h1>Registration Phase 2</h1>
       <div className="card">
         <div>
           <p>

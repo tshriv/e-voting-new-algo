@@ -66,3 +66,11 @@ button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.phase-indicator {
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  text-align: center;
+}

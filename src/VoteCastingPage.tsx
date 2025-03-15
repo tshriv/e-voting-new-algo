@@ -8,13 +8,24 @@ export function VoteCastingPage() {
   const [voteCandidate, setVoteCandidate] = useState('');
   const [voterId, setVoterId] = useState('');
   const [status, setStatus] = useState('');
+  const [signature, setSignature] = useState(''); // Add this state
   const web3Service = new Web3Service();
+
+  const handleCopySignature = async () => {
+    try {
+      await navigator.clipboard.writeText(signature);
+      alert("Signature copied to clipboard!");
+    } catch (err) {
+      alert("Failed to copy signature.");
+    }
+  };
 
   const handleCastVote = async () => {
     try {
       console.log("Step 1: Signing candidate name...");
       const signResult1 = await PKCCryptoHelper.signMessage(voteCandidate, privateKey);
       console.log("Candidate Signature:", signResult1.signature);
+      setSignature(signResult1.signature); // Save signature for copying
 
       console.log("Step 2: Fetching Voting ID from contract...");
       const votingId = await web3Service.getVotingId();
@@ -59,7 +70,6 @@ export function VoteCastingPage() {
 
   return (
     <div className="container">
-      <h1>Cast Vote</h1>
       <div className="card">
         <label>
           Private Key:
@@ -86,6 +96,13 @@ export function VoteCastingPage() {
           />
         </label>
         <button onClick={handleCastVote}>Cast Vote</button>
+        {signature && (
+          <div style={{ marginTop: '1rem' }}>
+            <h3>Your Vote Signature</h3>
+            <textarea readOnly value={signature} style={{ width: '100%', height: '100px' }} />
+            <button onClick={handleCopySignature}>Copy Signature</button>
+          </div>
+        )}
         {status && <p>{status}</p>}
       </div>
     </div>

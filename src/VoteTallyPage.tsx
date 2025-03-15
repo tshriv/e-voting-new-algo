@@ -3,11 +3,10 @@ import { Web3Service } from './web3/web3';
 import { PKCCryptoHelper } from './crypto/PKCCryptoHelper';
 
 export function VoteTallyPage() {
-  const [privateKey, setPrivateKey] = useState('');
+  const [signedVote, setSignedVote] = useState('');
   const [voterId, setVoterId] = useState('');
   const [status, setStatus] = useState('');
   const [candidateList, setCandidateList] = useState<string[]>([]);
-  const [winner, setWinner] = useState<string>('');
 
   const web3Service = new Web3Service();
 
@@ -28,8 +27,7 @@ export function VoteTallyPage() {
     try {
       // Step 1: Sign the candidate name (message) using the provided private key.
       console.log("Step 1: Signing candidate message...");
-      const signResult1 = await PKCCryptoHelper.signMessage(candidateList[0] /* dummy candidate */, privateKey);
-      console.log("Candidate Signature:", signResult1.signature);
+      console.log(" Signed Vote:", signedVote);
 
       // Step 2: Fetch Voting ID and create voteHash.
       console.log("Step 2: Fetching Voting ID from contract...");
@@ -37,7 +35,7 @@ export function VoteTallyPage() {
       console.log("Voting ID:", votingId);
 
       console.log("Step 2: Creating hash from candidate signature and voting ID...");
-      const combined = signResult1.signature + votingId;
+      const combined = signedVote + votingId;
       const voteHash = await PKCCryptoHelper.createHash(combined);
       console.log("Computed Vote Hash:", voteHash);
 
@@ -63,7 +61,7 @@ export function VoteTallyPage() {
           console.log(`Verifying signature for candidate: ${candidate}`);
           const candidateValid = await PKCCryptoHelper.verifySignature(
             candidate, // candidate as message
-            signResult1.signature, // using the signature generated earlier
+            signedVote, // using the signature generated earlier
             registeredPublicKey
           );
           if (candidateValid) {
@@ -83,28 +81,15 @@ export function VoteTallyPage() {
     }
   };
 
-  const handleGetWinner = async () => {
-    try {
-      console.log("Fetching winner candidate...");
-      const winningCandidate = await web3Service.getWinner();
-      console.log("Winner candidate:", winningCandidate);
-      setWinner(winningCandidate);
-    } catch (error) {
-      console.error("Error fetching winner:", error);
-      setStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    }
-  };
-
   return (
     <div className="container">
-      <h1>Vote Tally Page</h1>
       <div className="card">
         <label>
-          Private Key:
+          Signed Vote:
           <input
             type="text"
-            value={privateKey}
-            onChange={(e) => setPrivateKey(e.target.value)}
+            value={signedVote}
+            onChange={(e) => setSignedVote(e.target.value)}
           />
         </label>
         <label>
@@ -115,22 +100,8 @@ export function VoteTallyPage() {
             onChange={(e) => setVoterId(e.target.value)}
           />
         </label>
-        <label>
-          Select Candidate:
-          <select>
-            {candidateList.map((cand, index) => (
-              <option key={index} value={cand}>
-                {cand}
-              </option>
-            ))}
-          </select>
-        </label>
         <button onClick={handleTallyVote}>Tally Vote</button>
         {status && <p>{status}</p>}
-      </div>
-      <div className="card">
-        <button onClick={handleGetWinner}>Get Winner</button>
-        {winner && <p>Winner Candidate: {winner}</p>}
       </div>
     </div>
   );

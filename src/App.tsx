@@ -1,178 +1,188 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
-import { PKCCryptoHelper } from './crypto/PKCCryptoHelper';
 import { Web3Service } from './web3/web3';
 import { RegistrationPhase2 } from './RegistrationPhase2';
 import { VoteCastingPage } from './VoteCastingPage';
+import { InitialRegistrationPhase } from './components/initialRegistrationPhase';
+import { ParamSetPhase } from './components/ParamSetPhase';
+import { VoteTallyPage } from './VoteTallyPage';
+import { BigNumber } from 'ethers';
 
 function App() {
-  const [page, setPage] = useState<'phase1' | 'phase2' | 'vote' | "tally">('phase1');
-  const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<string>('');
-  const [candidatesInput, setCandidatesInput] = useState<string>("");
-  const [randomNumber, setRandomNumber] = useState<number>(0);
-  const [votingId, setVotingId] = useState<string>("");
+
+  const [winner, setWinner] = useState<string>('');
+  const [currentPhase, setCurrentPhase] = useState<number | null>(null);
+
 
   const web3Service = new Web3Service();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setFile(event.target.files[0]);
-    }
-  };
-
-  const verifyAndRegister = async () => {
-    if (!file) {
-      setStatus('Please select a file');
-      return;
-    }
-
+  const handleGetWinner = async () => {
     try {
-      const fileContent = await file.text();
-      const certData = JSON.parse(fileContent);
-      const { gov_pub, voter_pub, signature } = certData;
-      const govPubStr = JSON.stringify(gov_pub);
-      let voterPubStr = JSON.stringify(voter_pub);
-
-      const isValid = await PKCCryptoHelper.verifySignature(
-        voterPubStr, // message
-        signature,   // signature
-        govPubStr    // public key
-      );
-
-      if (!isValid) {
-        setStatus('Invalid signature');
-        return;
-      }else{
-        console.log("Signature is valid");
-      }
-
-      const pubKeyInEliptic = PKCCryptoHelper.convertJwkToElliptic(JSON.parse(voterPubStr));
-      const voterPubKey = pubKeyInEliptic.publicKey;
-      // Convert JWK to elliptic curve format for using it as folded public key
-      voterPubStr = JSON.stringify(voterPubKey);   
-      console.log("before adding public key to folded key , public key is ",voterPubStr);   
-      await web3Service.addVoterPublicKey(voterPubStr);
-      setStatus('Registration successful!');
+      console.log("Fetching winner candidate...");
+      const winningCandidate = await web3Service.getWinner();
+      console.log("Winner candidate:", winningCandidate);
+      setWinner(winningCandidate);
     } catch (error) {
-      setStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("Error fetching winner:", error);
     }
   };
 
-  const handleSetVotingParameters = async () => {
+  const updatePhase = async () => {
     try {
-      const candidateList = candidatesInput.split(',')
-        .map(candidate => candidate.trim())
-        .filter(candidate => candidate.length > 0);
-
-      if (candidateList.length === 0) {
-        setStatus('Candidate list cannot be empty');
-        return;
-      }
-      if (!votingId) {
-        setStatus('Voting ID is required');
-        return;
-      }
-
-      await web3Service.setVotingParameters(candidateList, randomNumber, votingId);
-      setStatus('Voting parameters set successfully!');
+      const phase = await web3Service.getPhase();
+      setCurrentPhase(phase);
+      console.log("Updated Phase:", phase);
     } catch (error) {
-      setStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error("Error retrieving phase:", error);
     }
   };
 
-  if (page === 'phase2') {
-    return <RegistrationPhase2 />;
-  }
+   // On mount, load the current phase from the contract
+   useEffect(() => {
+    (async () => {
+      try {
+        const phase = await web3Service.getPhase();
+        setCurrentPhase(phase);
+        console.log("Loaded Phase:", phase);
+      } catch (error) {
+        console.error("Error retrieving phase:", error);
+      }
+    })();
+  }, []);
 
-  if (page === 'vote') {
-    return <VoteCastingPage />;
-  }
 
-  if (page === 'tally') {
-    return <VoteCastingPage />;
-  }
-  return (
-    <div className="container">
-      <h1>Voter Registration</h1>
-      <div className="card">
-        <input
-          type="file"
-          accept=".json"
-          onChange={handleFileChange}
-        />
-        <button
-          onClick={verifyAndRegister}
-          disabled={!file}
-        >
-          Verify and Register
-        </button>
-      </div>
+  // return (
+  //   <div className="container">
+  //     <h1>Voter Registration</h1>
+  //     <InitialRegistrationPhase />
 
-      <h1>Set Voting Parameters</h1>
-      <div className="card">
-        <label>
-          Candidate List (comma separated):
-          <input
-            type="text"
-            value={candidatesInput}
-            onChange={(e) => setCandidatesInput(e.target.value)}
-            placeholder="Candidate1, Candidate2, Candidate3"
-          />
-        </label>
-        <br />
-        <label>
-          Random Number:
-          <input
-            type="number"
-            value={randomNumber}
-            onChange={(e) => setRandomNumber(Number(e.target.value))}
-          />
-        </label>
-        <br />
-        <label>
-          Voting ID:
-          <input
-            type="text"
-            value={votingId}
-            onChange={(e) => setVotingId(e.target.value)}
-            placeholder="Voting ID"
-          />
-        </label>
-        <br />
-        <button
-          onClick={handleSetVotingParameters}
-          disabled={!candidatesInput || !votingId}
-        >
-          Set Voting Parameters
-        </button>
-      </div>
+  //     <h1>Set Voting Parameters</h1>
+  //     <div className="card">
+  //       <label>
+  //         Candidate List (comma separated):
+  //         <input
+  //           type="text"
+  //           value={candidatesInput}
+  //           onChange={(e) => setCandidatesInput(e.target.value)}
+  //           placeholder="Candidate1, Candidate2, Candidate3"
+  //         />
+  //       </label>
+  //       <br />
+  //       <label>
+  //         Random Number:
+  //         <input
+  //           type="number"
+  //           value={randomNumber}
+  //           onChange={(e) => setRandomNumber(Number(e.target.value))}
+  //         />
+  //       </label>
+  //       <br />
+  //       <label>
+  //         Voting ID:
+  //         <input
+  //           type="text"
+  //           value={votingId}
+  //           onChange={(e) => setVotingId(e.target.value)}
+  //           placeholder="Voting ID"
+  //         />
+  //       </label>
+  //       <br />
+  //       <button
+  //         onClick={handleSetVotingParameters}
+  //         disabled={!candidatesInput || !votingId}
+  //       >
+  //         Set Voting Parameters
+  //       </button>
+  //     </div>
 
-      <div className="card">
-        <button onClick={() => setPage('phase2')}>
-          Registration Phase - 2
-        </button>
-      </div>
+  //     <div className="card">
+  //       <button onClick={() => setPage('phase2')}>
+  //         Registration Phase - 2
+  //       </button>
+  //     </div>
       
-      <div className="card">
-        <button onClick={() => setPage('vote')}>
-          Cast Vote Page
-        </button>
-      </div>
+  //     <div className="card">
+  //       <button onClick={() => setPage('vote')}>
+  //         Cast Vote Page
+  //       </button>
+  //     </div>
 
-      <div className="card">
-        <button onClick={() => setPage('tally')}>
-         Vote Tally Page
-        </button>
-      </div>
+  //     <div className="card">
+  //       <button onClick={() => setPage('tally')}>
+  //        Vote Tally Page
+  //       </button>
+  //     </div>
 
-      {status && (
-        <div className={`status ${status.includes('Error') ? 'error' : 'success'}`}>
-          {status}
-        </div>
-      )}
-    </div>
+  //     {status && (
+  //       <div className={`status ${status.includes('Error') ? 'error' : 'success'}`}>
+  //         {status}
+  //       </div>
+  //     )}
+  //   </div>
+  // );
+
+   // UI for each phase
+   const renderPhaseUI = () => {
+    if (currentPhase === null) {
+      return <p>Loading phase...</p>;
+    }
+    switch (BigNumber.from(currentPhase).toNumber()) {
+      case 0:
+        return (
+          <div>
+            <h1>Set Vote Parameter</h1>
+            <ParamSetPhase onPhaseUpdate={updatePhase} />
+          </div>
+        );
+      case 1:
+        return (
+          <div>
+            <h1>Registration Phase 1</h1>
+            <InitialRegistrationPhase />
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <h1>Registration Phase 2</h1>
+            <RegistrationPhase2 />
+          </div>
+        );
+      case 3:
+        return (
+          <div>
+            <h1>Cast Vote</h1>
+            <VoteCastingPage />
+          </div>
+        );
+        case 4:
+          return (
+            <div>
+              <h1>Vote Tally</h1>
+              <VoteTallyPage />
+            </div>
+          );
+
+          case 5:
+            return (
+              <div className="card">
+        <button onClick={handleGetWinner}>Get Winner</button>
+        {winner && <p>Winner Candidate: {winner}</p>}
+      </div>
+            );
+      default:
+        return <p>Invalid phase</p>;
+    }
+  };
+  return (
+  <div className="container">
+    <h1>e-Voting System</h1>
+    <h3>Current Phase: {currentPhase !== null ? BigNumber.from(currentPhase).toNumber() : 'Loading...'}</h3>
+    {renderPhaseUI()}
+  </div>
+ 
   );
+
 }
 
 export default App;
