@@ -1,0 +1,395 @@
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_publicKey",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_signature",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_voteHash",
+				"type": "string"
+			}
+		],
+		"name": "addVoterData",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "index",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_publicKey",
+				"type": "string"
+			}
+		],
+		"name": "addVoterPublicKey",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllCandidates",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "candidates",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllPublicKeys",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllSignatures",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "signatures",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllVoteHashes",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "voteHashes",
+				"type": "string[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getCandidate",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "candidate",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getPhase",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getRandomNumber",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_randomNumber",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getRegisteredVoterPublicKey",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "publicKey",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getVoterData",
+		"outputs": [
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "publicKey",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "signature",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "voteHash",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "isVoteCounted",
+						"type": "bool"
+					}
+				],
+				"internalType": "struct EVotingSystem.VoterData",
+				"name": "voter",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			}
+		],
+		"name": "getVoterGovPublicKey",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "publicKey",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getVoterPublicKeyCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "count",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getVotingId",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_votingId",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getVotingParameters",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "_votingId",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_candidateCount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_randomNumber",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bool",
+				"name": "_isSet",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getWinner",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "winner",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_candidate",
+				"type": "string"
+			}
+		],
+		"name": "incrementVoteCount",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "isVotingParametersSet",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "_isSet",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_index",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_voteHash",
+				"type": "string"
+			}
+		],
+		"name": "modifyVoteHash",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_phase",
+				"type": "uint256"
+			}
+		],
+		"name": "setPhase",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string[]",
+				"name": "_candidateList",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_randomNumber",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_votingId",
+				"type": "string"
+			}
+		],
+		"name": "setVotingParameters",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]

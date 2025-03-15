@@ -1,0 +1,5 @@
+{
+    "gov_pub": {"crv":"P-256","ext":true,"key_ops":["verify"],"kty":"EC","x":"YsdP1kNuBNJYAuyhJryVSXiOMJjT7C_J9JNJewi2IOs","y":"GzBBVa0lc6M4SxbSXki1bQB_ibB-6l75gpJCXxIO4aY"},
+    "voter_pub": {"crv":"P-256","ext":true,"key_ops":["verify"],"kty":"EC","x":"wbEid_MNg958lx2OYIaDTgHNS223LWHa0ECy6ubdiSk","y":"Cefb4FEUqqmz0dNZP6djCSZ867zJJ2SfqKGg7rS_91c"},
+    "signature": "5qPfbMUspdMdswczvx1CATgDS80ksE51ayjwPC+zc/la00gE2d8JqNb7Pwngf+kv49/dNZ9KQJ4mAhR0t/wNHA=="
+}

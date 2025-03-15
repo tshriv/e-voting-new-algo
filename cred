@@ -1,0 +1,29 @@
+Voter Pub key:
+{"crv":"P-256","ext":true,"key_ops":["verify"],"kty":"EC","x":"wbEid_MNg958lx2OYIaDTgHNS223LWHa0ECy6ubdiSk","y":"Cefb4FEUqqmz0dNZP6djCSZ867zJJ2SfqKGg7rS_91c"}
+Voter Pri key:
+{"crv":"P-256","d":"WPjUGqWomF7uwH6hvfM02PXO-I5l9YxywNKL-YMjT1Y","ext":true,"key_ops":["sign"],"kty":"EC","x":"wbEid_MNg958lx2OYIaDTgHNS223LWHa0ECy6ubdiSk","y":"Cefb4FEUqqmz0dNZP6djCSZ867zJJ2SfqKGg7rS_91c"}
+Voter Sign :
+MUIFnLdhKzWkecjuxO2dEaxKGRAN58jhl00xtWaaATvrz/oljpjrxhONoeTM2lFJU1+7WM9sy98ipKDpWAcvsw==
+
+Gov private key :
+{"crv":"P-256","d":"WnHt5Awpmhs_gGNO0wW-xesdqwT4r-PJMMetY3NZI9k","ext":true,"key_ops":["sign"],"kty":"EC","x":"YsdP1kNuBNJYAuyhJryVSXiOMJjT7C_J9JNJewi2IOs","y":"GzBBVa0lc6M4SxbSXki1bQB_ibB-6l75gpJCXxIO4aY"}
+Gov Public key :
+{"crv":"P-256","ext":true,"key_ops":["verify"],"kty":"EC","x":"YsdP1kNuBNJYAuyhJryVSXiOMJjT7C_J9JNJewi2IOs","y":"GzBBVa0lc6M4SxbSXki1bQB_ibB-6l75gpJCXxIO4aY"}
+Voter1 Pub key:
+{"crv":"P-256","ext":true,"key_ops":["verify"],"kty":"EC","x":"DHdUz1C9WkLK5yo0yLf5rS60w2BvvDFo5kv75ui8xq8","y":"iPvDLcx1nXbAxhNYHlY6wwXg3gZmGiA80B1Oro-Mxmg"}
+
+Voter 1 Priv Key :
+{"crv":"P-256","d":"MlK53hl69neCAKhDjJkSJrhsn5sccDBkKu-YhJACN-o","ext":true,"key_ops":["sign"],"kty":"EC","x":"DHdUz1C9WkLK5yo0yLf5rS60w2BvvDFo5kv75ui8xq8","y":"iPvDLcx1nXbAxhNYHlY6wwXg3gZmGiA80B1Oro-Mxmg"}
+
+signature voter1:
+FCchjVHqSQJZyaZB47Me4DXDpIBQ6vLeotPTdjCJIa+a6yMr2/2rDQhPqvzPAFfpeOVUV213el+NtWQzuFyCRw==+LLy9bWtyvmbUjgLAWIQsk5Scp/sy8DrE+EHgWhKWuJkor1bwdZiKvvMBCA6LZsVamPSd9hjef0puPDbKpCwbrB2tOxcNBybaX1cTpfGxGDl83IImXUafKgYCBchVJlCX29blJkFgMT9ipvMGqJe1Co3CccfB7jAV/aVN02zZnG35YTLFlfx85BNBBpv4400tcSTcjLp/3gmWiQok2q07S8EdnxSMoBR/15pewUyaXosKNj6Pw==
+
+
+==========================
+
+0 - before param set
+1- param set voting phase 1 Gov based started.
+2. Registration Phase 2 start
+3. voting phase 1
+4 . voting phase 2 (tally)
+5. voting end get winner
