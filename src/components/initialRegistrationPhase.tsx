@@ -49,12 +49,21 @@ export function InitialRegistrationPhase() {
 
   return (
     <div className="card">
-      <h2>Initial Voter Registration</h2>
-      <input
-        type="file"
-        accept=".json"
-        onChange={handleFileChange}
-      />
+      <div className="card-header">
+        <h2>Voter Registration</h2>
+        <span className="phase-badge">Phase 1</span>
+      </div>
+      <div className="file-input-container">
+        <label htmlFor="gov-cert">
+          Government Authorised ID Certificate:
+          <input
+            id="gov-cert"
+            type="file"
+            accept=".json"
+            onChange={handleFileChange}
+          />
+        </label>
+      </div>
       <button
         onClick={verifyAndRegister}
         disabled={!file}

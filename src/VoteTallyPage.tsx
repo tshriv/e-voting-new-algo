@@ -82,8 +82,10 @@ export function VoteTallyPage() {
   };
 
   return (
-    <div className="container">
       <div className="card">
+      <div className="card-header">
+        <h2>Vote Tallying</h2>
+      </div>
         <label>
           Signed Vote:
           <input
@@ -102,7 +104,6 @@ export function VoteTallyPage() {
         </label>
         <button onClick={handleTallyVote}>Tally Vote</button>
         {status && <p>{status}</p>}
-      </div>
     </div>
   );
 }

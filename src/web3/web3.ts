@@ -10,7 +10,7 @@ declare global {
 export class Web3Service {
   private contract: ethers.Contract;
   private provider: ethers.providers.Web3Provider;
-  private contractAddress: string = "0x2F2Bb7629997b9750a36Bf9EfC6374770C25b512";
+  private contractAddress: string = "0xfCba6bD407B6a578a8750A82296C45A0Bd9CF3FF";
 
   constructor() {
     if (!window.ethereum) {

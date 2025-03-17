@@ -128,38 +128,40 @@ export function RegistrationPhase2() {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <div>
-          <p>
-            <strong>Registered Public Keys:</strong> {voterPublicKeys.join(', ')}
-          </p>
-          <p>
-            <strong>Random Number:</strong> {randomNumber !== null ? randomNumber : 'Loading...'}
-          </p>
-        </div>
-        <div>
-          <label>
-            Certificate Private Key:
-            <input 
-              type="text"
-              value={certificatePrivateKey}
-              onChange={(e) => setCertificatePrivateKey(e.target.value)}
-            />
-          </label>
-        </div>
-        <button onClick={handleRegister}>Register</button>
-        {status && <p>{status}</p>}
-        {generatedPrivateKey && (
-          <div style={{ marginTop: '1rem' }}>
-            <h3>Your Generated Private Key</h3>
-            <textarea readOnly value={generatedPrivateKey} style={{ width: '100%', height: '100px' }} />
-            <button onClick={handleCopyPrivateKey} style={{ marginTop: '0.5rem' }}>
-              Copy Private Key
-            </button>
-          </div>
-        )}
+    <div className="card">
+      <div className="card-header">
+        <h2>Voter Registration Phase 2</h2>
+        <span className="phase-badge">Phase 2</span>
       </div>
+      {/* <div>
+        <p>
+          <strong>Registered Public Keys:</strong> {voterPublicKeys.join(', ')}
+        </p>
+        <p>
+          <strong>Random Number:</strong> {randomNumber !== null ? randomNumber : 'Loading...'}
+        </p>
+      </div> */}
+      <div>
+        <label>
+         Gov Certificate Private Key:
+          <input 
+            type="text"
+            value={certificatePrivateKey}
+            onChange={(e) => setCertificatePrivateKey(e.target.value)}
+          />
+        </label>
+      </div>
+      <button onClick={handleRegister}>Register</button>
+      {status && <p>{status}</p>}
+      {generatedPrivateKey && (
+        <div style={{ marginTop: '1rem' }}>
+          <h3>Your Generated Private Key</h3>
+          <textarea readOnly value={generatedPrivateKey} style={{ width: '100%', height: '100px' }} />
+          <button onClick={handleCopyPrivateKey} style={{ marginTop: '0.5rem' }}>
+            Copy Private Key
+          </button>
+        </div>
+      )}
     </div>
   );
 }

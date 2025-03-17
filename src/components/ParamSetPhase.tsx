@@ -5,15 +5,16 @@ interface ParamSetPhaseProps {
   onPhaseUpdate: () => Promise<void>;
 }
 
-
 export function ParamSetPhase({ onPhaseUpdate }: ParamSetPhaseProps) {
   const [status, setStatus] = useState<string>('');
   const [candidatesInput, setCandidatesInput] = useState<string>("");
-  const [randomNumber, setRandomNumber] = useState<number>(0);
   const [votingId, setVotingId] = useState<string>("");
   const web3Service = new Web3Service();
 
- 
+  const generateRandomNumber = (): number => {
+    // Generate a random number between 1000 and 9999
+    return Math.floor(Math.random() * 9000) + 1000;
+  };
 
   const handleSetVotingParameters = async () => {
     try {
@@ -30,10 +31,10 @@ export function ParamSetPhase({ onPhaseUpdate }: ParamSetPhaseProps) {
         return;
       }
 
+      const randomNumber = generateRandomNumber();
       await web3Service.setVotingParameters(candidateList, randomNumber, votingId);
       setStatus('Voting parameters set successfully!');
       
-      // Call the parent's update function instead of just getPhase()
       await onPhaseUpdate();
     } catch (error) {
       setStatus(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -50,15 +51,6 @@ export function ParamSetPhase({ onPhaseUpdate }: ParamSetPhaseProps) {
           value={candidatesInput}
           onChange={(e) => setCandidatesInput(e.target.value)}
           placeholder="Candidate1, Candidate2, Candidate3"
-        />
-      </label>
-      <br />
-      <label>
-        Random Number:
-        <input
-          type="number"
-          value={randomNumber}
-          onChange={(e) => setRandomNumber(Number(e.target.value))}
         />
       </label>
       <br />

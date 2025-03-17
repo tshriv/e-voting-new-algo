@@ -69,8 +69,10 @@ export function VoteCastingPage() {
   };
 
   return (
-    <div className="container">
-      <div className="card">
+    <div className="card">
+      <div className="card-header">
+        <h2>Vote Casting</h2>
+      </div>
         <label>
           Private Key:
           <input
@@ -104,7 +106,7 @@ export function VoteCastingPage() {
           </div>
         )}
         {status && <p>{status}</p>}
-      </div>
+      
     </div>
   );
 }
